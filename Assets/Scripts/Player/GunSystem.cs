@@ -28,13 +28,19 @@ public class GunSystem : MonoBehaviour
 
     private bool fireCooldown;
 
-    AudioSource sound;
+    // Shotgun sound variables
+    [SerializeField] private AudioClip fireSound;
+    [SerializeField] private Transform shotgunAudioSourceObject;
+    private AudioSource shotgunAudioSource;
     
     private void Start()
     {
         currentAmmo = initialAmmo;
         AmmoVal.text = currentAmmo.ToString();
-        sound = GetComponent<AudioSource>();
+
+        // Initialize shotgun audio source
+        shotgunAudioSource = shotgunAudioSourceObject.GetComponent<AudioSource>();
+        shotgunAudioSource.clip = fireSound;
         
         // Reference to player camera
         if (playerCamera == null)
@@ -58,7 +64,17 @@ public class GunSystem : MonoBehaviour
     
     private void Fire()
     {
-        sound.Play();
+
+        if (shotgunAudioSource != null)
+        {
+            Debug.Log("Shotgun Sound played: " + shotgunAudioSource.clip.name);
+            shotgunAudioSource.Play(); // Play the shotgun sound
+        }
+        else
+        {
+            Debug.LogError("Shotgun AudioSource is not assigned!");
+        }
+
         currentAmmo--;
         AmmoVal.text = currentAmmo.ToString();
         

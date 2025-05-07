@@ -24,7 +24,10 @@ public class PlayerInfo : MonoBehaviour
     public TextMeshProUGUI message;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-
+    // Player damage audio variables
+    [SerializeField] private AudioClip[] damageSounds;
+    //[SerializeField] private Transform damageAudioSourceObject;
+    [SerializeField] private AudioSource damageAudioSource;
 
     void Start()
     {
@@ -37,6 +40,8 @@ public class PlayerInfo : MonoBehaviour
         //AmmoVal.text = MAX_AMMO.ToString();
 
         message.gameObject.SetActive(false);
+
+        damageAudioSource = GetComponent<AudioSource>();
     }
 
     void Update ()
@@ -59,6 +64,12 @@ public class PlayerInfo : MonoBehaviour
             health -= damage;
             HPVal.text = health.ToString();
 
+            // Play a random damage sound
+            if (damageSounds.Length > 0 && damageAudioSource != null)
+            {
+                int randomIndex = Random.Range(0, damageSounds.Length);
+                damageAudioSource.PlayOneShot(damageSounds[randomIndex]);
+            }
         } 
         else if (damage < 0 ) // Heal
         {
