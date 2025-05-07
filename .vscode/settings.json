@@ -57,6 +57,7 @@
         "temp/": true,
         "Temp/": true
     },
+<<<<<<< HEAD
     "dotnet.defaultSolution": "FinalProject.sln"
 =======
 {
@@ -119,4 +120,7 @@
     },
     "dotnet.defaultSolution": "CS4700FinalProject.sln"
 >>>>>>> bngo
+=======
+    "dotnet.defaultSolution": "CS4700FinalProject.sln"
+>>>>>>> viet
 }
