@@ -4,7 +4,7 @@ using TMPro;
 
 public class GunSystem : MonoBehaviour
 {
-    [Header("Shotgun Properties")]
+    [Header("Weapon Properties")]
     [SerializeField] private int pelletCount = 14;
     [SerializeField] private float spreadAngle = 15f;
     [SerializeField] private float range = 512f;

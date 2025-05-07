@@ -6,10 +6,12 @@ using UnityEngine;
 public class WeaponSwitching : MonoBehaviour
 {
 
+    public GameObject player;
     public int selectedWeapon = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GunSystem weaponData = player.GetComponent<GunSystem>();
         SelectWeapon();
     }
 
@@ -47,6 +49,7 @@ public class WeaponSwitching : MonoBehaviour
         {
             if (i == selectedWeapon)
                 weapon.gameObject.SetActive(true);
+
             else
                 weapon.gameObject.SetActive(false);
             i++;
