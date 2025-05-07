@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 6948342584919761516}
   - component: {fileID: 1267481168804496865}
   - component: {fileID: 5887960907581176487}
+  - component: {fileID: 3958396152295097953}
   m_Layer: 0
   m_Name: EnemyShooter
   m_TagString: Untagged
@@ -176,7 +177,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: ecc9a2331debabb40982ae38c4c25f02, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -262,3 +263,16 @@ MonoBehaviour:
   projectile: {fileID: 1427135947796282176, guid: 3c64ea572ac8c8944922e31a77221e86, type: 3}
   cadence: 1.2
   spreadDegrees: 3
+--- !u!114 &3958396152295097953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8347922113064112585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56c600b3572ba749be3ce1e7eee2ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100

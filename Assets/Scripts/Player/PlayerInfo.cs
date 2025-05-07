@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerInfo : MonoBehaviour
 {
     [Header("Limits")]
-    public int maxHealth = 200;
+    public int MAX_HEALTH = 200;
     public int maxArmor  = 200;
     public int healthSoftCap = 100;
     public int armorSoftCap  = 100;
@@ -19,10 +19,8 @@ public class PlayerInfo : MonoBehaviour
     public TextMeshProUGUI HPVal;
     public TextMeshProUGUI ARVal;
     public TextMeshProUGUI message;
-<<<<<<< HEAD
 
     bool isDead;
-=======
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     // Player damage audio variables
@@ -34,7 +32,6 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private AudioClip healSound;
     [SerializeField] private Transform healAudioSourceObject;
     private AudioSource healAudioSource;
->>>>>>> bngo
 
     void Start()
     {
@@ -63,13 +60,6 @@ public class PlayerInfo : MonoBehaviour
     {
         if (damage > 0)
         {
-<<<<<<< HEAD
-            AbsorbDamage(damage);
-        }
-        else if (damage < 0)
-        {
-            Heal(-damage, overheal);   // flip sign for clarity
-=======
             health -= damage;
             HPVal.text = health.ToString();
 
@@ -107,7 +97,6 @@ public class PlayerInfo : MonoBehaviour
                 health = MAX_HEALTH;
             }
             HPVal.text = health.ToString();
->>>>>>> bngo
         }
 
         UpdateUI();
@@ -126,7 +115,7 @@ public class PlayerInfo : MonoBehaviour
     {
         health += amount;
         if (!overheal && health > healthSoftCap) health = healthSoftCap;
-        if (overheal && health > maxHealth)      health = maxHealth;
+        if (overheal && health > MAX_HEALTH)      health = MAX_HEALTH;
     }
 
     void UpdateUI()

@@ -30,7 +30,7 @@ public class SimpleProjectile : MonoBehaviour
 
     void OnEnable()
     {
-        rb.velocity = transform.forward * speed;      // start moving
+        rb.linearVelocity = transform.forward * speed;      // start moving
         Destroy(gameObject, life);                    // fail-safe cleanup
     }
 
