@@ -19,14 +19,34 @@ public class PlayerInfo : MonoBehaviour
     public TextMeshProUGUI HPVal;
     public TextMeshProUGUI ARVal;
     public TextMeshProUGUI message;
+<<<<<<< HEAD
 
     bool isDead;
+=======
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    // Player damage audio variables
+    [SerializeField] private AudioClip[] damageSounds;
+    //[SerializeField] private Transform damageAudioSourceObject;
+    [SerializeField] private AudioSource damageAudioSource;
+
+    // Player heal audio variables
+    [SerializeField] private AudioClip healSound;
+    [SerializeField] private Transform healAudioSourceObject;
+    private AudioSource healAudioSource;
+>>>>>>> bngo
 
     void Start()
     {
         isDead = false;
         UpdateUI();
         message.gameObject.SetActive(false);
+
+        // Initialize damage audio source
+        damageAudioSource = GetComponent<AudioSource>();
+        // Initialize heal audio source
+        healAudioSource = healAudioSourceObject.GetComponent<AudioSource>();
+        healAudioSource.clip = healSound;
     }
 
     void Update()
@@ -43,11 +63,51 @@ public class PlayerInfo : MonoBehaviour
     {
         if (damage > 0)
         {
+<<<<<<< HEAD
             AbsorbDamage(damage);
         }
         else if (damage < 0)
         {
             Heal(-damage, overheal);   // flip sign for clarity
+=======
+            health -= damage;
+            HPVal.text = health.ToString();
+
+            // Play a random damage sound
+            if (damageSounds.Length > 0 && damageAudioSource != null)
+            {
+                int randomIndex = Random.Range(0, damageSounds.Length);
+                damageAudioSource.PlayOneShot(damageSounds[randomIndex]);
+            }
+        } 
+        else if (damage < 0 ) // Heal
+        {
+            health -= damage;
+
+            // Play heal sound
+            // Here instead of on HealthPickup because the gameobject is destroyed too quickly
+            healAudioSource.PlayOneShot(healSound);
+
+            if (health > healthSoftCap && !overheal) //If the entity interacted with doesn't have an overheal attribute, the health won't go above the softcap.
+            {
+                if ((health + damage) <= healthSoftCap) 
+                {
+                    health = healthSoftCap;
+                    Debug.Log("Health at softcap");
+                }
+                else
+                {
+                    health += damage;
+                    Debug.Log("Health Beyond Softcap");
+                }
+            }
+
+            if (health > MAX_HEALTH && overheal) // If health surpasses max health from an entity and it is overheal, cap it out at max.
+            {
+                health = MAX_HEALTH;
+            }
+            HPVal.text = health.ToString();
+>>>>>>> bngo
         }
 
         UpdateUI();

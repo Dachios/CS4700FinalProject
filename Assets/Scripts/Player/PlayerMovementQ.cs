@@ -65,6 +65,11 @@ public class QMovement : MonoBehaviour
 	private float speed;
 	public float speed_mul;
 
+	// Footstep sound variables 
+	[SerializeField] private AudioClip footstepSound;
+	[SerializeField] private Transform footstepAudioSourceObject;
+	private AudioSource footstepAudioSource;
+
 
 	void Start () 
 	{
@@ -82,6 +87,10 @@ public class QMovement : MonoBehaviour
 		
 
         Cursor.lockState = CursorLockMode.Locked;
+
+		// Initialize footstep audio source
+		footstepAudioSource = footstepAudioSourceObject.GetComponent<AudioSource>();
+		footstepAudioSource.clip = footstepSound;
 	}
 
 	void Update () 
@@ -158,11 +167,34 @@ public class QMovement : MonoBehaviour
 					}
 				}
 				playerCamera.transform.localPosition = new Vector3(controller.transform.position.x, (controller.transform.position.y + CAMERA_OFFSET) + (Mathf.Sin(Time.time * 10) * bobIntensity / 50), controller.transform.position.z);
+		
+				// Play footstep sounds when moving & grounded
+				if (speed_mul > 0) {
+					if (!footstepAudioSource.isPlaying)
+					{
+						footstepAudioSource.loop = true;
+						footstepAudioSource.Play();
+					}
+				}
+				else // Not moving
+				{
+					if (footstepAudioSource.isPlaying)
+					{
+						footstepAudioSource.loop = false;
+						footstepAudioSource.Stop();
+					}
+				}
 			}
 			else // In Air
 			{
 				//print("IN AIR");
 
+				// Stop footstep sounds when in air
+				if (footstepAudioSource.isPlaying)
+				{
+					footstepAudioSource.loop = false;
+					footstepAudioSource.Stop();
+				}
 
 				move_direction.Normalize();
 				move_speed = move_direction.magnitude * moveSpeed;

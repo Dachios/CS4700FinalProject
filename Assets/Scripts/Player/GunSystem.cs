@@ -28,13 +28,36 @@ public class GunSystem : MonoBehaviour
 
     private bool fireCooldown;
 
-    AudioSource sound;
+    // Shotgun sound variables
+    [SerializeField] private AudioClip fireSound;
+    [SerializeField] private Transform shotgunAudioSourceObject;
+    private AudioSource shotgunAudioSource;
+    // Ammo Pickup sound variables
+    [SerializeField] private AudioClip pickupSound;
+    [SerializeField] private Transform pickupAudioSourceObject;
+    private AudioSource pickupAudioSource;
+    // Enemy Hit sound variables
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private Transform hitAudioSourceObject;
+    private AudioSource hitAudioSource;
+
     
     private void Start()
     {
         currentAmmo = initialAmmo;
         AmmoVal.text = currentAmmo.ToString();
-        sound = GetComponent<AudioSource>();
+
+        // Initialize shotgun audio source
+        shotgunAudioSource = shotgunAudioSourceObject.GetComponent<AudioSource>();
+        shotgunAudioSource.clip = fireSound;
+
+        // Initialize pickup audio source
+        pickupAudioSource = pickupAudioSourceObject.GetComponent<AudioSource>();
+        pickupAudioSource.clip = pickupSound;
+
+        // Initialize hit audio source
+        hitAudioSource = hitAudioSourceObject.GetComponent<AudioSource>();
+        hitAudioSource.clip = hitSound;
         
         // Reference to player camera
         if (playerCamera == null)
@@ -58,7 +81,17 @@ public class GunSystem : MonoBehaviour
     
     private void Fire()
     {
-        sound.Play();
+
+        if (shotgunAudioSource != null)
+        {
+            Debug.Log("Shotgun Sound played: " + shotgunAudioSource.clip.name);
+            shotgunAudioSource.Play(); // Play the shotgun sound
+        }
+        else
+        {
+            Debug.LogError("Shotgun AudioSource is not assigned!");
+        }
+
         currentAmmo--;
         AmmoVal.text = currentAmmo.ToString();
         
@@ -105,6 +138,8 @@ public class GunSystem : MonoBehaviour
             HealthComponent healthComponent = hit.collider.GetComponent<HealthComponent>();
             if (healthComponent != null)
             {
+                // Play hit sound
+                hitAudioSource.PlayOneShot(hitSound);
                 healthComponent.TakeDamage(damage);
             }
             
@@ -123,6 +158,17 @@ public class GunSystem : MonoBehaviour
     {
         currentAmmo = Mathf.Min(currentAmmo + amount, MAX_AMMO);
         AmmoVal.text = currentAmmo.ToString();
+
+        // Play pickup sound
+        // Here instead of in the pickup script because the ammo pickup game object dies too quickly for the sound to play
+        if (pickupAudioSource != null && pickupSound != null) {
+            pickupAudioSource.PlayOneShot(pickupSound);
+            print("Pickup sound played.");
+        }
+        else
+        {
+            Debug.LogWarning("Pickup audio source or sound clip is not assigned.");
+        }
     }
     
     //Public method for HUD to access
