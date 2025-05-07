@@ -29,6 +29,11 @@ public class PlayerInfo : MonoBehaviour
     //[SerializeField] private Transform damageAudioSourceObject;
     [SerializeField] private AudioSource damageAudioSource;
 
+    // Player heal audio variables
+    [SerializeField] private AudioClip healSound;
+    [SerializeField] private Transform healAudioSourceObject;
+    private AudioSource healAudioSource;
+
     void Start()
     {
         // Player doesn't start dead.
@@ -41,7 +46,11 @@ public class PlayerInfo : MonoBehaviour
 
         message.gameObject.SetActive(false);
 
+        // Initialize damage audio source
         damageAudioSource = GetComponent<AudioSource>();
+        // Initialize heal audio source
+        healAudioSource = healAudioSourceObject.GetComponent<AudioSource>();
+        healAudioSource.clip = healSound;
     }
 
     void Update ()
@@ -74,6 +83,10 @@ public class PlayerInfo : MonoBehaviour
         else if (damage < 0 ) // Heal
         {
             health -= damage;
+
+            // Play heal sound
+            // Here instead of on HealthPickup because the gameobject is destroyed too quickly
+            healAudioSource.PlayOneShot(healSound);
 
             if (health > healthSoftCap && !overheal) //If the entity interacted with doesn't have an overheal attribute, the health won't go above the softcap.
             {

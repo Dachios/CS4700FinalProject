@@ -22,14 +22,13 @@ public class AmmoPickup : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        collision = player.GetComponent<Collider>();
+        //collision = player.GetComponent<Collider>();
 
-        if (collision.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
             if (player.TryGetComponent(out GunSystem playerAmmo))
             {
                 playerAmmo.AddAmmo(5);
-
 
                 
             }
